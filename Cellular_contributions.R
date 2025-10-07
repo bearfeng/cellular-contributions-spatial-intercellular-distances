@@ -25,18 +25,19 @@ avg_exp <- as.data.frame(sapply(cell_types, function(ct){
 target_genes <- c("IBSP", "TWIST1", "SPARC")
 avg_exp_target <- avg_exp[target_genes, ]
 
-
-# Z-score standardization
-z_score <- function(x) (x - mean(x)) / sd(x)
-z_scores <- apply(avg_exp_target, 1, function(gene_exp){
-  z_score(gene_exp)
+# min_max standardization
+min_max_scale <- function(x) {
+  (x - min(x)) / (max(x) - min(x))
+}
+min_max_scores <- apply(avg_exp_target, 1, function(gene_exp){
+  min_max_scale(gene_exp)
 }) %>% as.data.frame()
 
 # Calculate the comprehensive score for each cell type
-z_scores$CompositeScore <- z_scores$IBSP*6/38 + z_scores$TWIST1*19/38 + z_scores$IBSP*13/38
+min_max_scores$CompositeScore <- min_max_scores$IBSP*6/38 + min_max_scores$TWIST1*19/38 + min_max_scores$IBSP*13/38
 
 print("细胞类型综合得分:")
-print(z_scores)
+print(min_max_scores)
 prop_df <- as.data.frame(prop_matrix)
 prop_df$SpotID <- rownames(prop_df)
 
@@ -89,4 +90,5 @@ write_csv(result, "result.csv")
 ggsave("Cells_contribution_PT09.png",p,width = 8,height = 6)
 ggsave("Cells_contribution_PT09.pdf",p,width = 8,height = 6)
 ggsave("Cells_contribution_PT09.jpg",p,width = 8,height = 6)
+
 
