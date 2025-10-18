@@ -68,8 +68,8 @@ rownames(result) <- name
 # Output result
 p <- result %>%
   rownames_to_column("CellType") %>%
-  pivot_longer(-c(CellType,Avg_RelativeContribution), names_to = "Metrics", values_to = "Z_score") %>%
-  ggplot(aes(x = CellType, y = Z_score, fill = Metrics)) +
+  pivot_longer(-c(CellType,Avg_RelativeContribution), names_to = "Metrics", values_to = "Scaled_score") %>%
+  ggplot(aes(x = CellType, y = Scaled_score, fill = Metrics)) +
   geom_bar(stat = "identity", position = "dodge") +
   geom_line(aes(x = CellType, y = Avg_RelativeContribution, group = 1, color = "Avg_RelativeContribution"), 
             size = 1) +
@@ -90,5 +90,6 @@ write_csv(result, "result.csv")
 ggsave("Cells_contribution_PT09.png",p,width = 8,height = 6)
 ggsave("Cells_contribution_PT09.pdf",p,width = 8,height = 6)
 ggsave("Cells_contribution_PT09.jpg",p,width = 8,height = 6)
+
 
 
