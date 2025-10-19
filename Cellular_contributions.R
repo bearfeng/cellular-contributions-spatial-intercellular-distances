@@ -34,7 +34,7 @@ min_max_scores <- apply(avg_exp_target, 1, function(gene_exp){
 }) %>% as.data.frame()
 
 # Calculate the comprehensive score for each cell type
-min_max_scores$CompositeScore <- min_max_scores$IBSP*46/937 + min_max_scores$TWIST1*127/937 + min_max_scores$SPARC*102/937
+min_max_scores$CompositeScore <- min_max_scores$IBSP*6/38 + min_max_scores$TWIST1*19/38 + min_max_scores$SPARC*13/38
 
 print("细胞类型综合得分:")
 print(min_max_scores)
@@ -90,6 +90,7 @@ write_csv(result, "result.csv")
 ggsave("Cells_contribution_PT09.png",p,width = 8,height = 6)
 ggsave("Cells_contribution_PT09.pdf",p,width = 8,height = 6)
 ggsave("Cells_contribution_PT09.jpg",p,width = 8,height = 6)
+
 
 
 
